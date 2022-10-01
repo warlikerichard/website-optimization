@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { MovieCard } from "./MovieCard";
 
 interface ContentProps {
@@ -20,6 +21,12 @@ interface ContentProps {
 }
 
 export function Content({ selectedGenre, movies }: ContentProps) {
+  const movieList = useMemo(() => {
+    return movies.map(movie => {
+      return <MovieCard key={movie.imdbID} title={movie.Title} poster={movie.Poster} runtime={movie.Runtime} rating={movie.Ratings[0].Value} />
+  })
+  }, [selectedGenre]);
+
   return (
     <div className="container">
       <header>
@@ -28,9 +35,7 @@ export function Content({ selectedGenre, movies }: ContentProps) {
 
       <main>
         <div className="movies-list">
-          {movies.map(movie => (
-            <MovieCard key={movie.imdbID} title={movie.Title} poster={movie.Poster} runtime={movie.Runtime} rating={movie.Ratings[0].Value} />
-          ))}
+          {movieList}
         </div>
       </main>
     </div>
